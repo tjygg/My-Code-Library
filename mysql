@@ -1,0 +1,141 @@
+-- 1. 插入数据
+insert into 表名
+(字段1, 字段2, 字段3, ...)
+ values
+ (值1, 值2, 值3, ...)
+
+create table order_2017 (
+    `order_id` varchar(20) primary key,
+    `cust_id` varchar(20) not null,
+    `date` date default null,
+    `original_value` float(10,2) default 0.00,
+    `discount` float(10,2) default 0.00,
+    `items` int default 0
+    );
+
+    -- 2. 更新表中的数据
+    update 表名
+    set 字段=新值
+    where 字段=旧值
+
+    update order_2017 set date='2017/4/1' where order_id='0002';
+
+-- 3. 更新表的结构
+-- 3.1 增加列
+alter table 表名
+add 列名 数据类型
+[约束条件] [first | after 已存在的字段名];
+alter table order_2017
+add `spend` double(10,2);
+
+-- 3.2 删除列
+alter table 表名
+drop 列名;
+
+-- 3.3 修改表名
+alter table 表名
+rename [to] 新表名;
+
+-- 修改字段的数据类型
+alter table 表名
+modify 字段名 数据类型;
+
+-- 修改字段名
+alter table 表名 
+change 旧字段 新字段 新数据类型;
+
+-- 修改字段的排列位置
+alter table 表名 
+modify 字段1 数据类型 first；
+modify 字段1 数据类型 after 字段2;
+
+-- 练习
+将表格 order_2017 中的 order_id 列数据类型改为 varchar， original_value discount改为double(10,2) 增加一列spend列。
+alter table order_2017
+modify order_id varchar(20),
+modify original_value double(10,2),
+modify discount double(10,2);
+
+更新order_id字段。
+update order_2017 set order_id='0001' where order_id='1';
+
+-- 4 删除 
+-- 4.1 删除行
+delete from 表名 where 条件
+
+-- 5 查询
+-- 5.1建立两张基础表格
+-- 5.2 去重查询 distinct
+select job
+from employee;
+
+select distinct job
+from employee;
+
+-- 5.3重命名
+select distinct job as 职位名称
+from employee;
+
+-- where 演示
+> < = <> between
+and or in 
+like %用于匹配任意数量的字符，_用来匹配单个字符。
+
+-- 检索出员工表中工资大于10000的员工信息。
+select *
+from employee
+where sal > 10000;
+
+-- 检索出名字中含有伟的员工名字
+select ename
+from employee
+where ename like '%伟%';
+
+-- 题目：从员工表中检索出部门编号为20或者30,2013-2015年期间入职，工资在5000以上（含5000）的员工信息。
+select * 
+from employee
+where deptno in (20, 30)
+and hiredate between '2013-01-01' and '2015-12-31'
+and sal >= 5000;
+
+-- 拼接，使用concat
+select concat(eno, '-', ename) as 员工编号
+from employee;
+
+-- 数据分组
+-- 计算各级别员工的工资和及奖金和
+select job,
+ sum(sal) as 工资和,
+ sum(bonus) as 奖金和
+from employee
+group by job;
+
+-- 找出工资支出总和大于50000的职级
+-- 分析：首先需要统计各职级的工资支出总和，在新表的基础上进行筛选。
+select job,
+ sum(sal) as 工资支出总和,
+ sum(bonus) as 奖金支出总和
+from employee
+group by job
+having 工资支出总和>5000;
+
+-- 排序
+select job,
+ sum(sal) as 工资支出总和,
+ sum(bonus) as 奖金支出总和
+from employee
+group by job
+having 工资支出总和>5000
+order by 工资支出总和 desc;
+
+-- 代码执行顺序
+from
+on 
+join
+where
+group by
+having
+select
+distinct
+order by
+limit
