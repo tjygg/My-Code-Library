@@ -1,0 +1,56 @@
+-- 1.计算各级别员工的本月工资支出总和及津贴支出和
+SELECT job, SUM(sal) as "工资支出总和", SUM(bonus) as "津贴支出总和" from employee
+GROUP BY job;
+
+-- Having:分组筛选，对分组后的数据进行筛选
+-- 基本结构:
+-- select分组字段,聚合函数
+-- from表名
+-- where原表筛选条件
+-- group by分组字段
+-- having分组筛选条件
+
+-- 2.找出工资支出总和大于50000的员工职级
+SELECT job,
+	SUM(sal) as 工资支出和
+from employee
+GROUP BY job
+HAVING SUM(sal) > 50000;
+
+-- 虽然以下语句也能执行，但是跟sql的执行顺序有冲突
+SELECT job,
+	SUM(sal) as 工资支出和
+from employee
+GROUP BY job
+HAVING 工资支出和 > 50000;
+
+-- 计算每种职位的员工工资总支出与津贴总支出，只显示津贴总支出超过1000的职位，并按照总工资从高到低进行排列。
+SELECT job, SUM(sal) as 工资总支出, SUM(bonus) 津贴总支出
+FROM employee
+GROUP BY job
+HAVING SUM(bonus) > 1000
+ORDER BY SUM(sal) DESC;
+
+-- SELECT查询字段，
+-- DISTINCT <select_ list>去重
+-- FROM <left_ table> 数据源
+-- <join_ type> >
+-- JOIN <right_ table> 连接表
+-- ON <join condition>连接条件
+-- WHERE <where_ condition>原表筛选条件
+-- GROUP BY <group by. list>分组条件
+-- HAVING ) <having_ condition>分组筛选条件
+-- ORDER BY <order_ by_ condition> 排序条件
+-- LIMIT <limit_ number> 限制条件;
+
+-- ①FROM
+-- ②ON
+-- ③JOIN
+-- ④WHERE
+-- ⑤GROUP BY
+-- ⑥HAVING
+-- ⑦SELECT
+-- ⑧DISTINCT
+-- ⑨ORDER BY
+-- ①LIMIT
+
