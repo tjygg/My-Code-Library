@@ -1,0 +1,84 @@
+-- SQL函数
+-- 聚合函数
+-- 1.查出员工表中的工资总支出、津贴总支出、平均工资
+SELECT SUM(sal), SUM(bonus), AVG(sal)
+FROM employee;
+
+SELECT COUNT(*),
+	COUNT(job),
+	COUNT(DISTINCT job)	AS 职级种类
+from employee;
+
+-- 注意:①count(*)计算表中总的行数，不管该列是否有值或者为空值
+-- ②count(字段)计算指定列下的总行数，忽略空值的行
+-- ★③不要使用count (列名)或count(常量)来替代count(*),count(* )是SQL92定义的标准统计行数的语法，跟数
+-- 据库无关，跟NULL和非NULL无关。
+-- *④count (distinct字段)计算该列出NULL之外的不重复行数
+-- ★⑤当某一-列的值 全是NULL时，count( col )的返回结果为0，
+-- 但sum( col )的返回结果为NULL，因此使用sum( )时需要注意NPE问题。
+
+-- 时间日期函数
+
+SELECT CURDATE(), CURRENT_DATE(), CURDATE()+0;
+
+SELECT CURTIME(), CURRENT_TIME(), CURTIME()+0;
+
+SELECT CURRENT_TIMESTAMP(), LOCALTIME(), NOW(), SYSDATE();
+
+SELECT UNIX_TIMESTAMP(), NOW(), UNIX_TIMESTAMP(NOW());
+
+SELECT FROM_UNIXTIME(1596098121), FROM_UNIXTIME("1596098121");
+
+SELECT UTC_DATE(), UTC_DATE()+0, UTC_TIME();
+
+SELECT MONTH("2021-07-19"), MONTHNAME("2021-07-19");
+
+SELECT DAYNAME("2021-07-19"), DAYOFWEEK("2021-07-19");
+
+SELECT WEEKDAY("2021-07-4"), WEEKDAY("2021-07-9");
+
+SELECT DATE_FORMAT("2021-07-04","%M %d %Y");
+
+-- 字符串函数
+SELECT CHAR_LENGTH("test"), LENGTH("test"), CHAR_LENGTH("明小敏"), LENGTH("明小敏");
+SELECT CONCAT("MY","SQL", "8.0"), CONCAT("MY",NULL, "8.0");
+SELECT CONCAT_WS('-','1st','2nd','3rd'), CONCAT_WS('*','1st','2nd','3rd');
+SELECT INSERT('Quest', 2, 4, 'what') as col1;
+SELECT INSERT('Quest', -1, 4, 'what') as col2;
+SELECT INSERT('Quest', 3, 100, 'what') as col3;
+-- 注: INSERT(s1,x, len, s2 )返回字符串s1，其子字符串起始于
+-- x位置和被字符串s2取代的len字符。如果x超过字符串长度，则
+-- 返回值为原始字符串。假如1en的长度大于其他字符串的长度，则
+-- 从位置x开始截取并替换。若任何一个参数为nul1,则返回值为
+-- null。
+-- 
+SELECT LOWER('BIG'), LCASE('BIG'), UPPER('date'), UCASE('Date');
+SELECT LEFT('football', 3), RIGHT('basketball',4);
+SELECT '    (    book    )    ', CONCAT('(',LTRIM('    book    '),')');
+
+SELECT TRIM('ab' FROM 'abcadfsgcsdrfabbb');
+
+SELECT CONCAT('(',SPACE(6),')'), REPLACE('xxx.mysql.com','x','w');
+SELECT STRCMP('txt','txt2'),STRCMP('txt2','txt2'),STRCMP('txt2','txt');
+
+SELECT SUBSTRING('breakfase', 5) as col1;
+SELECT SUBSTRING('breakfase', 5, 3) as col2;
+SELECT SUBSTRING('breakfase', -3) as col3;
+SELECT SUBSTRING('breakfase', -5, 3) as col4;
+-- 注: substring(s,n, len) ,从字符串s返回一个长度为len,起
+-- 始位置为n的子串。n若为负值，则从右向左数n为起始位置。若
+-- len小于1，则结果始终为空字符串。
+
+SELECT LOCATE('ball','football') AS 开始位;
+SELECT POSITION('ball' IN 'football') AS 开始位;
+SELECT instr('football','ball') AS 开始位;
+
+
+SELECT REVERSE('abc');
+
+SELECT DAYNAME("2021-07-19"), DAYOFWEEK("2021-07-19");
+
+SELECT WEEKDAY("2021-07-4"), WEEKDAY("2021-07-9");
+
+SELECT DATE_FORMAT("2021-07-04","%M %d %Y");
+	
